@@ -55,7 +55,6 @@ function DraggablePhoto({
       transition={{ type: 'spring', stiffness: 260, damping: 22, delay: entryDelay }}
       className="cursor-grab active:cursor-grabbing bg-white p-2 shadow-xl hover:shadow-2xl transition-shadow rounded-sm border border-gray-100 select-none"
     >
-      {/* 宽度固定，高度自适应图片原始比例 */}
       <img
         src={photo.src}
         alt={photo.desc}
@@ -81,23 +80,20 @@ function PhotoLightbox({ photo, originRect, onClose }: PhotoLightboxProps) {
   const startScale = Math.max(originRect.width / window.innerWidth, originRect.height / window.innerHeight) * 1.2
 
   const handleClose = () => {
-    // 1. 立刻把自身设为 pointer-events:none，下面的卡片马上可以点击
     setVisible(false)
-    // 2. 等动画播完再通知父组件卸载（时长要和 exit transition 对齐）
     setTimeout(onClose, 350)
   }
 
   return (
-    // pointer-events:none 在 visible=false 后立刻生效
     <div
-      className="absolute inset-0 z-[1000]"
+      className="fixed inset-0 z-[1000]"
       style={{ pointerEvents: visible ? 'auto' : 'none' }}
     >
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.15 }}
-        className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4 md:p-12 cursor-pointer"
+        className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4 md:p-12 cursor-pointer"
         onClick={handleClose}
       >
         <div
@@ -105,38 +101,28 @@ function PhotoLightbox({ photo, originRect, onClose }: PhotoLightboxProps) {
           onClick={(e) => e.stopPropagation()}
         >
           <motion.div
-            initial={{ x: startX, y: startY, scale: startScale, opacity: 0.6 }}
-            animate={{
-              x: visible ? 0 : startX,
-              y: visible ? 0 : startY,
-              scale: visible ? 1 : startScale,
-              opacity: visible ? 1 : 0,
-            }}
-            transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-            className="bg-white p-3 md:p-4 shadow-2xl rounded-sm max-w-[80vw]"
+            initial={{ x: startX, y: startY, scale: startScale, opacity: 0 }}
+            animate={{ x: 0, y: 0, scale: 1, opacity: visible ? 1 : 0 }}
+            transition={{ type: 'spring', stiffness: 280, damping: 26 }}
+            className="bg-white p-3 shadow-2xl rounded-sm"
           >
             <img
               src={photo.src}
               alt={photo.desc}
-              className="block max-w-[80vw] md:max-w-[60vw] max-h-[70vh] w-auto h-auto"
+              className="max-w-[80vw] max-h-[70vh] w-auto h-auto block"
             />
           </motion.div>
-
           <motion.div
-            initial={{ x: -40, opacity: 0, rotate: 0 }}
-            animate={{
-              x: visible ? 0 : -40,
-              opacity: visible ? 1 : 0,
-              rotate: visible ? 3 : 0,
-            }}
-            transition={{ type: 'spring', delay: visible ? 0.15 : 0 }}
-            className="bg-emerald-300 p-6 shadow-xl w-48 h-48 flex flex-col justify-between -ml-12 md:ml-0 z-[-1] md:z-10 mt-[-50px] md:mt-0"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: visible ? 1 : 0, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="text-white text-center md:text-left max-w-xs"
           >
-            <div>
-              <p className="text-[10px] text-emerald-900/60 mb-1 font-mono">{photo.date}</p>
-              <p className="font-bold text-emerald-950 leading-tight text-lg">{photo.desc}</p>
-            </div>
-            <div className="text-right text-xs font-mono text-emerald-900/50">#Gallery</div>
+            <h2 className="text-xl font-bold mb-1">{photo.title}</h2>
+            <p className="text-sm text-white/70 mb-2">{photo.date}</p>
+            <span className="inline-block bg-teal-500/80 text-white text-xs px-3 py-1 rounded-full">
+              {photo.desc}
+            </span>
           </motion.div>
         </div>
       </motion.div>
@@ -187,15 +173,6 @@ export default function Gallery({ photos, onClose }: GalleryProps) {
 
   return (
     <>
-      <motion.div
-        layoutId="sidebar-morph"
-        onClick={onClose}
-        className="absolute top-6 right-6 z-[999] bg-white/80 dark:bg-gray-800/80 backdrop-blur-md px-6 py-3 rounded-full shadow-lg border border-white/50 cursor-pointer hover:scale-105 transition-transform flex items-center gap-2 group"
-      >
-        <span className="text-xl group-hover:-rotate-12 transition-transform">🏠</span>
-        <span className="font-bold text-gray-700 dark:text-gray-200 text-sm">返回主页</span>
-      </motion.div>
-
       <div className="relative w-full h-full flex items-center justify-center">
         {photos.map((photo, index) => (
           <DraggablePhoto
@@ -212,7 +189,6 @@ export default function Gallery({ photos, onClose }: GalleryProps) {
         ))}
       </div>
 
-      {/* 不用 AnimatePresence，由 PhotoLightbox 内部自管动画和卸载时机 */}
       {selectedPhoto && selectedRect && (
         <PhotoLightbox
           key={selectedPhoto.id}

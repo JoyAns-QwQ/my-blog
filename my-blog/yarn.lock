@@ -3062,7 +3062,7 @@ concat-map@0.0.1:
   resolved "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
-contentlayer2@^0.5.3, contentlayer2@0.5.8:
+contentlayer2@^0.5.3, contentlayer2@^0.5.8, contentlayer2@0.5.8:
   version "0.5.8"
   resolved "https://registry.npmjs.org/contentlayer2/-/contentlayer2-0.5.8.tgz"
   integrity sha512-GlyhZdJALMyTRuxquE2AQ47kELupZKz4BIEpZeN/NiNV+3MmE61LW1bF7gpCZ+cIrKkSaDNTKbeLvEtsefslqA==
@@ -6040,7 +6040,7 @@ needle@^2.5.2:
     iconv-lite "^0.4.4"
     sax "^1.2.4"
 
-next-contentlayer2@^0.5.3, next-contentlayer2@0.5.8:
+next-contentlayer2@^0.5.3, next-contentlayer2@^0.5.8:
   version "0.5.8"
   resolved "https://registry.npmjs.org/next-contentlayer2/-/next-contentlayer2-0.5.8.tgz"
   integrity sha512-3Xh8quPCFmg/QGa4qTnOwSsT3oNYCtmm+Ii0UlbOHxX59gHYVX9M5mTzkdUKiKC1aJfiGIPPGQXhKNfc6qvWZg==
