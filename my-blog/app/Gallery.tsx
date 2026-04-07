@@ -163,7 +163,6 @@ export default function Gallery({ photos, onClose }: GalleryProps) {
     setHighestZ(newZ)
     setZIndices((prev) => ({ ...prev, [id]: newZ }))
   }
-
   const handleOpenPhoto = (photo: GalleryPhoto, rect: DOMRect) => {
     setSelectedRect(rect)
     setSelectedPhoto(photo)
