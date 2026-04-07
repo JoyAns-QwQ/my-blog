@@ -72,7 +72,9 @@ function ClockWidget() {
       {/* 内容 */}
       <div className="relative z-10 flex flex-row items-center justify-between h-full">
         <div className="flex flex-col">
-          <div className="text-4xl font-mono font-bold tracking-tighter text-teal-600 dark:text-teal-400">
+          <div 
+          suppressHydrationWarning 
+          className="text-4xl font-mono font-bold tracking-tighter text-teal-600 dark:text-teal-400">
             {timeString}
           </div>
           {/* Hover 时显示提示文字 */}
@@ -86,7 +88,9 @@ function ClockWidget() {
           </motion.div>
         </div>
         <div className="flex flex-col items-end gap-1">
-          <div className="text-xs text-gray-400 font-medium">{weekday}</div>
+          <div 
+          suppressHydrationWarning 
+          className="text-xs text-gray-400 font-medium">{weekday}</div>
           {/* 小图标 hover 时出现 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.7 }}
